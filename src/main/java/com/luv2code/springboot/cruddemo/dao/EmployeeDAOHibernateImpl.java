@@ -20,7 +20,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 	//set up constructor injection 
 	@Autowired
 	public EmployeeDAOHibernateImpl(EntityManager theEntityManager) {
-		theEntityManager=entityManager;
+		entityManager=theEntityManager;
 		
 	}
 	
@@ -58,25 +58,41 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 
 	@Override
 	public void save(Employee theEmployee) {
+
 		// get the current hibernate session
-				Session currentSession=entityManager.unwrap(Session.class);
-				
-				//save the employee
-				currentSession.saveOrUpdate( theEmployee); 
-			
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		// save employee
+		currentSession.saveOrUpdate(theEmployee);
 	}
 
 
 	@Override
-	public void  deleteById(int theId) {
+	public void deleteById(int theId) {
+		
 		// get the current hibernate session
-		Session currentSession=entityManager.unwrap(Session.class);
+		Session currentSession = entityManager.unwrap(Session.class);
+				
+		// delete object with primary key
+		Query theQuery = 
+				currentSession.createQuery(
+						"delete from Employee where id=:employeeId");
+		theQuery.setParameter("employeeId", theId);
 		
-		
-		//delete object with primary key
-		Query theQuery=currentSession.createQuery("delete from Employee where id=employeeId");
-		currentSession.setProperty(null, theQuery);
-		
+		theQuery.executeUpdate();
 	}
 
 }
+
+
+/*@Override
+public void  deleteById(int theId) {
+// get the current hibernate session
+Session currentSession=entityManager.unwrap(Session.class);
+
+
+//delete object with primary key
+Query theQuery=currentSession.createQuery("delete from Employee where id=employeeId");
+currentSession.setProperty(null, theQuery);
+
+}*/

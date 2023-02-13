@@ -15,12 +15,13 @@ public class EmployeeServiceImp implements EmployeeService {
 	
 	private EmployeeDAO employeeDAO;
 	
-	
 	@Autowired
 	public EmployeeServiceImp(EmployeeDAO theEmployeeDAO) {
 		
-		theEmployeeDAO=employeeDAO;
+		employeeDAO=theEmployeeDAO;
 	}
+
+	
 
 	@Override
 	@Transactional
@@ -53,3 +54,16 @@ public class EmployeeServiceImp implements EmployeeService {
 	}
 
 }
+
+
+
+
+//x=5
+//y=6
+//a=x+y
+
+//x+y=a
+
+//x=5
+//y=6
+//a=x

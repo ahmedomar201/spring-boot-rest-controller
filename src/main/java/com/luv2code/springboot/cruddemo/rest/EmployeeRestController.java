@@ -24,7 +24,7 @@ public class EmployeeRestController {
 	//quick and dirty:inject employee DAO use constructor injection
 	@Autowired
 	public EmployeeRestController(EmployeeService theEmployeeService) {
-		theEmployeeService=employeeService;
+		employeeService=theEmployeeService;
 	}
 	
 	
@@ -66,7 +66,7 @@ public class EmployeeRestController {
 	//add mapping for put /employees updated new employees
 	
 	@PutMapping("/employees")
-	public Employee updatedEmployee(@RequestBody Employee theEmployee) {
+	public Employee updateEmployee(@RequestBody Employee theEmployee) {
 		
 		employeeService.save(theEmployee);
 		
@@ -74,19 +74,20 @@ public class EmployeeRestController {
 	}
 	
 	//add mapping for deleted /employees delete  employees
-	@DeleteMapping
-	public String deleteEmployee(@PathVariable int employeeId ) {
+	@DeleteMapping("/employees/{employeeId}")
+	public String deleteEmployee(@PathVariable int employeeId) {
 		
-		Employee tempEmployee =employeeService.findById(employeeId);
+		Employee tempEmployee = employeeService.findById(employeeId);
 		
-		//// throw expect if null
-		if(tempEmployee==null) {
-			throw new RuntimeException("Employee id not found - "+employeeId);
-			
+		// throw exception if null
+		
+		if (tempEmployee == null) {
+			throw new RuntimeException("Employee id not found - " + employeeId);
 		}
+		
 		employeeService.deleteById(employeeId);
 		
-		return "deleted employee id -"+employeeId;
+		return "Deleted employee id - " + employeeId;
 	}
 	
 
